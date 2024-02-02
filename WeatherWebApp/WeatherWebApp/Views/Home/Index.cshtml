@@ -4,5 +4,15 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Hi this is damon</p>
+
+    <form method="post" action="/Home/SubmitForm">
+        <label for="zipcode">Zipcode:</label>
+        <input type="text" id="zipcode" name="Zipcode" required>
+
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="Country" required>
+
+        <button type="submit">Get Weather Data</button>
+    </form>
 </div>

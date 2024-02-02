@@ -23,6 +23,21 @@ namespace WeatherWebApp.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult SubmitForm(UserInputModel userInput) // [frombody] was causing problems
+        {
+            var zipcode = userInput.Zipcode;
+            var country = userInput.Country;
+
+            var viewModel = new SubmitFormViewModel
+            {
+                Zipcode = zipcode,
+                Country = country
+            };
+
+            return View(viewModel);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
