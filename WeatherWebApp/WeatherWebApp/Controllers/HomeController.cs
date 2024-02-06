@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WeatherWebApp.Models;
+using System.Text.Json;
 
 namespace WeatherWebApp.Controllers
 {
@@ -24,18 +25,50 @@ namespace WeatherWebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult SubmitForm(UserInputModel userInput) // [frombody] was causing problems
+        public async Task<IActionResult> SubmitForm(UserInputModel userInput) // [frombody] was causing problems
         {
             var zipcode = userInput.Zipcode;
             var country = userInput.Country;
 
-            var viewModel = new SubmitFormViewModel
-            {
-                Zipcode = zipcode,
-                Country = country
-            };
+            var apiKey = "237653991af597a3b573e986887b2984";
+            var geoApiUrl = $"http://api.openweathermap.org/geo/1.0/zip?zip={zipcode},{country}&appid={apiKey}";
 
-            return View(viewModel);
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    var geoApiResponse = await httpClient.GetStringAsync(geoApiUrl); // geoApiResponse will now be a JSON object
+
+                    if (geoApiResponse != null)
+                    {
+                        // Parse
+                        var geoLocationApiResponseData = JsonSerializer.Deserialize<GeoLocationApiResponse>(geoApiResponse);
+                        var latitude = geoLocationApiResponseData.lat.ToString();
+                        var longitude = geoLocationApiResponseData.lon.ToString();
+
+                        // update SubmitFormViewModel
+                        var viewModel = new SubmitFormViewModel
+                        {
+                            lat = latitude,
+                            lon = longitude
+                        };
+                        return View(viewModel);
+                    }
+
+                }
+            }
+            catch (HttpRequestException ex) // error http GET
+            {
+                Console.WriteLine("HTTP GET ERROR: {ex.Message}");
+                return BadRequest("Error getting data from OpenWeatherMap API {ex.Message}");
+            }
+            catch (JsonException ex) // error deserializing API response
+            {
+                Console.WriteLine("JSON deserialization error: {ex.Message}");
+                return BadRequest("Error parsing JSON string {ex.Message}");
+            }
+
+            return View("Something Went Wrong");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -2,7 +2,7 @@
 {
     public class SubmitFormViewModel
     {
-        public string Zipcode { get; set; }
-        public string Country { get; set; }
+        public string lat { get; set; }
+        public string lon { get; set; }
     }
 }
