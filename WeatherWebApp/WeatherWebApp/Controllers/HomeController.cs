@@ -45,12 +45,16 @@ namespace WeatherWebApp.Controllers
                         var geoLocationApiResponseData = JsonSerializer.Deserialize<GeoLocationApiResponse>(geoApiResponse);
                         var latitude = geoLocationApiResponseData.lat.ToString();
                         var longitude = geoLocationApiResponseData.lon.ToString();
+                        var city = geoLocationApiResponseData.name;
 
                         // update SubmitFormViewModel
                         var viewModel = new SubmitFormViewModel
                         {
-                            lat = latitude,
-                            lon = longitude
+                            Latitude = latitude,
+                            Longtitude = longitude,
+                            Zipcode = zipcode,
+                            Country = country,
+                            City = city
                         };
                         return View(viewModel);
                     }
