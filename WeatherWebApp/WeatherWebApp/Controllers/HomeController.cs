@@ -41,35 +41,53 @@ namespace WeatherWebApp.Controllers
 
                     if (geoApiResponse != null)
                     {
-                        // Parse
+                        // GEO API
                         var geoLocationApiResponseData = JsonSerializer.Deserialize<GeoLocationApiResponse>(geoApiResponse);
                         var latitude = geoLocationApiResponseData.lat.ToString();
                         var longitude = geoLocationApiResponseData.lon.ToString();
                         var city = geoLocationApiResponseData.name;
 
-                        // update SubmitFormViewModel
-                        var viewModel = new SubmitFormViewModel
+                        // WEATHER API
+                        var weatherApiUrl = $"http://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={apiKey}";
+                        var weatherApiResponse = await httpClient.GetStringAsync(weatherApiUrl);
+                        
+                        if (weatherApiResponse != null)
                         {
-                            Latitude = latitude,
-                            Longtitude = longitude,
-                            Zipcode = zipcode,
-                            Country = country,
-                            City = city
-                        };
-                        return View(viewModel);
-                    }
+                            var weatherApiResponseData = JsonSerializer.Deserialize<WeatherApiResponse>(weatherApiResponse);
+                            var temperatureKelvin = weatherApiResponseData.main.temp;
+                            var temperatureCelsius = temperatureKelvin - 273.15;
+                            var temperatureFahrenheit = (temperatureCelsius * 9/5) + 32;
 
+                            // update SubmitFormViewModel
+                            var viewModel = new SubmitFormViewModel
+                            {
+                                Latitude = latitude,
+                                Longtitude = longitude,
+                                Zipcode = zipcode,
+                                Country = country,
+                                City = city,
+                                TemperatureCelsius = temperatureCelsius,
+                                TemperatureFahrenheit = temperatureFahrenheit
+                            };
+                            return View(viewModel);
+                        }
+                    }
                 }
             }
             catch (HttpRequestException ex) // error http GET
             {
-                Console.WriteLine("HTTP GET ERROR: {ex.Message}");
-                return BadRequest("Error getting data from OpenWeatherMap API {ex.Message}");
+                Console.WriteLine($"HTTP GET ERROR: {ex.Message}");
+                return BadRequest($"Error getting data from OpenWeatherMap API {ex.Message}");
             }
             catch (JsonException ex) // error deserializing API response
             {
-                Console.WriteLine("JSON deserialization error: {ex.Message}");
-                return BadRequest("Error parsing JSON string {ex.Message}");
+                Console.WriteLine($"JSON deserialization error: {ex.Message}");
+                return BadRequest($"Error parsing JSON string {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected error : {ex.Message}");
+                return BadRequest($"Unexpected error : {ex.Message}");
             }
 
             return View("Something Went Wrong");

@@ -7,5 +7,7 @@
         public string Zipcode { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
+        public double TemperatureCelsius { get; set; }
+        public double TemperatureFahrenheit { get; set; }
     }
 }
