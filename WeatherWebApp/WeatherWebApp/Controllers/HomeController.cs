@@ -58,6 +58,10 @@ namespace WeatherWebApp.Controllers
                             var temperatureCelsius = temperatureKelvin - 273.15;
                             var temperatureFahrenheit = (temperatureCelsius * 9/5) + 32;
 
+                            // round the temperatures to nearest whole number
+                            int roundedC = (int)Math.Round(temperatureCelsius);
+                            int roundedF = (int)Math.Round(temperatureFahrenheit);
+
                             // update SubmitFormViewModel
                             var viewModel = new SubmitFormViewModel
                             {
@@ -66,8 +70,8 @@ namespace WeatherWebApp.Controllers
                                 Zipcode = zipcode,
                                 Country = country,
                                 City = city,
-                                TemperatureCelsius = temperatureCelsius,
-                                TemperatureFahrenheit = temperatureFahrenheit
+                                TemperatureCelsius = roundedC,
+                                TemperatureFahrenheit = roundedF
                             };
                             return View(viewModel);
                         }

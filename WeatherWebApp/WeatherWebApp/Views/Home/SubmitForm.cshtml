@@ -5,14 +5,22 @@
 }
 
 @model SubmitFormViewModel
-<h1>Results</h1>
-<p>User-inputted Zipcode: @Model.Zipcode</p>
-<p>User-inputted Country: @Model.Country</p>
-<p>City from GeoLocationAPI: @Model.City</p>
-<p>Latitude from GeoLocationAPI: @Model.Latitude</p>
-<p>Longitude from GeoLocationAPI: @Model.Longtitude</p>
-<p>Temperature from OpenWeatherMapAPI: @Model.TemperatureCelsius C</p>
-<p>Temperature from OpenWeatherMapAPI: @Model.TemperatureFahrenheit F</p>
+<html>
+<head>
+    <title>@Model.City Weather</title>
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+<body>
+    <h1>@Model.City</h1>
+    <!-- Other content goes here -->
+
+    <p>@Model.Zipcode, @Model.Country</p>
+    <p>Temperature from OpenWeatherMapAPI: @Model.TemperatureFahrenheit F</p>
+    <p>Temperature from OpenWeatherMapAPI: @Model.TemperatureCelsius C</p>
+
+    <!-- Other content goes here -->
+</body>
+</html>
 
 
 
