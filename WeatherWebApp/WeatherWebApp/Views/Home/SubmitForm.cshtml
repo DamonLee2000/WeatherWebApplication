@@ -15,8 +15,17 @@
     <!-- Other content goes here -->
 
     <p>@Model.Zipcode, @Model.Country</p>
-    <p>Temperature from OpenWeatherMapAPI: @Model.TemperatureFahrenheit F</p>
-    <p>Temperature from OpenWeatherMapAPI: @Model.TemperatureCelsius C</p>
+    <p>@Model.Latitude, @Model.Longtitude</p>
+    <p>@Model.TemperatureFahrenheit F</p>
+    <p>@Model.TemperatureCelsius C</p>
+    <p>@(Model.Humidity)% Humidity</p>
+    <p>@Model.Weather</p>
+    <p>@Model.Description</p>
+
+    <img src="@string.Format("https://openweathermap.org/img/wn/{0}@2x.png", Model.icon)">
+
+    
+    
 
     <!-- Other content goes here -->
 </body>

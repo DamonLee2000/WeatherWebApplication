@@ -54,6 +54,8 @@ namespace WeatherWebApp.Controllers
                         if (weatherApiResponse != null)
                         {
                             var weatherApiResponseData = JsonSerializer.Deserialize<WeatherApiResponse>(weatherApiResponse);
+
+                            // temperature
                             var temperatureKelvin = weatherApiResponseData.main.temp;
                             var temperatureCelsius = temperatureKelvin - 273.15;
                             var temperatureFahrenheit = (temperatureCelsius * 9/5) + 32;
@@ -61,6 +63,14 @@ namespace WeatherWebApp.Controllers
                             // round the temperatures to nearest whole number
                             int roundedC = (int)Math.Round(temperatureCelsius);
                             int roundedF = (int)Math.Round(temperatureFahrenheit);
+
+                            // additional fields
+                            var feels_like = weatherApiResponseData.main.feels_like;
+                            var humidity = weatherApiResponseData.main.humidity;
+
+                            var weather = weatherApiResponseData.weather[0].main;
+                            var description = weatherApiResponseData.weather[0].desciption;
+                            var icon = weatherApiResponseData.weather[0].icon;
 
                             // update SubmitFormViewModel
                             var viewModel = new SubmitFormViewModel
@@ -71,7 +81,12 @@ namespace WeatherWebApp.Controllers
                                 Country = country,
                                 City = city,
                                 TemperatureCelsius = roundedC,
-                                TemperatureFahrenheit = roundedF
+                                TemperatureFahrenheit = roundedF,
+                                FeelsLike = feels_like,
+                                Humidity = humidity,
+                                Weather = weather,
+                                Description = description,
+                                icon = icon
                             };
                             return View(viewModel);
                         }

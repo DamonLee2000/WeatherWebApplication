@@ -1,7 +1,7 @@
 ﻿
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
+    background-color: lightskyblue;
     color: #333;
     margin: 0;
     padding: 0;
@@ -9,7 +9,7 @@ body {
 }
 
 h1 {
-    color: #007bff;
+    color: blueviolet;
 }
 
 p {

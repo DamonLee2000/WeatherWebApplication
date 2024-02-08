@@ -9,5 +9,13 @@
         public string City { get; set; }
         public double TemperatureCelsius { get; set; }
         public double TemperatureFahrenheit { get; set; }
+        public double FeelsLike { get; set; }
+        public double Humidity { get; set; }
+
+        public string Weather { get; set; }
+        
+        public string Description { get; set; }
+        public string icon { get; set; }
+        
     }
 }
