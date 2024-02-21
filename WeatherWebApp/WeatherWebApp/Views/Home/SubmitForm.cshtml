@@ -7,14 +7,13 @@
 @model SubmitFormViewModel
 <html>
 <head>
-    <title>@Model.City Weather</title>
+    <title>Results for @Model.City, @Model.Zipcode, @Model.Country</title>
     <link rel="stylesheet" href="~/css/styles.css">
 </head>
 <body>
     <h1>@Model.City</h1>
     <!-- Other content goes here -->
 
-    <p>@Model.Zipcode, @Model.Country</p>
     <p>@Model.Latitude, @Model.Longtitude</p>
     <p>@Model.TemperatureFahrenheit F</p>
     <p>@Model.TemperatureCelsius C</p>
